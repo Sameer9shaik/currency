@@ -1,0 +1,408 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>ExMoney pay</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'exapp/assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'exapp/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'exapp/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'exapp/assets/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+  <link href="{% static 'exapp/assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'exapp/assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'exapp/assets/vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'exapp/assets/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'exapp/assets/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: KnightOne - v2.2.1
+  * Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+  <header id="{% static 'exapp/header' %}" class="fixed-top ">
+    <div class="{% static 'exapp/container-fluid' %}">
+
+      <div class="row justify-content-center">
+        <div class="col-xl-9 d-flex align-items-center justify-content-between">
+{% if user.is_authenticated %}
+          <h1 class="logo"><a href="{ % url 'exapp:base' %}">ExMoney</a></h1>
+          
+
+          <nav class="nav-menu d-none d-lg-block">
+            <ul>
+              <li class="active"><a href="{% url 'exapp:home' %}">Home</a></li>
+              <li><a href="{% url 'exapp:home' %}">About</a></li>
+              <li><a href="{% url 'exapp:home' %}">Services</a></li>
+             
+              
+              <li class="drop-down"><a href="" style="color: #00b371;"> {{user.first_name}} {{user.last_name}}</a>
+                <ul>
+                  <li><a href="{% url 'exapp:profile' %}"> My profile</a></li>
+                  <li><a href="{% url 'exapp:buy' %}"> Buy Currency</a></li>
+                  <li><a href="{% url 'exapp:orders' %}">Orders </a></li>
+                  <li><a href="{% url 'exapp:transcations' %}">Transcations </a></li>
+                  <li><a href="{% url 'exapp:index' %}">Kyc </a></li>
+                  <li><a href="{% url 'exapp:index' %}">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+{% else %}
+                <h1 class="logo"><a href="{% url 'exapp:index' %}">ExMoney</a></h1>
+         
+
+                <nav class="nav-menu d-none d-lg-block">
+                  <ul>
+                    <li class="active"><a href="{% url 'exapp:index' %}">Home</a></li>
+                    <li><a href="{% url 'exapp:index' %}">About</a></li>
+                    <li><a href="{% url 'exapp:index' %}">Services</a></li>
+                    <!-- <li class="drop-down"><a href="">Currency Converter</a>
+                      <ul>
+                        <li><a href="{% url 'exapp:usd' %}">INR to USD</a></li>
+                        <li><a href="{% url 'exapp:euro' %}">INR to Euro</a></li>
+                        <li><a href="{% url 'exapp:dirham' %}">INR to Dirham</a></li>
+                        <li><a href="{% url 'exapp:yuan' %}">INR to Yuan</a></li>
+                        <li><a href="{% url 'exapp:pkrupee' %}">INR to Pakistani Rupee</a></li>
+                      </ul> -->
+                    <!-- </li> -->
+                  </ul>
+                </nav><!-- .nav-menu -->
+                
+                <a href="{% url 'exapp:login' %}" class="get-started-btn scrollto">Login</a>
+                <a href="{% url 'exapp:register' %} " class="get-started-btn scrollto">register</a>
+              </div>
+            </div>
+{% endif %}
+          </nav><!-- .nav-menu -->
+        
+        </div>
+      </div>
+
+    </div>
+  </header>
+{% if user.is_authenticated %}
+    <section id="hero" class="d-flex flex-column justify-content-center" style="opacity: 1;">
+        <div class="container" >
+          <div class="row justify-content-center">
+            <div class="col-xl-8 offset-md-34" >
+              <div class="card">
+                <div class="card-header shawdow-ms bg-light">
+<h2 style="color: #00b371;"> PAYMENT </h2><br>
+    <label for="pay_mode">Mode of Payment : </label>
+    <select name="pay_mode">
+    <option value="cash">cash </option>
+    <option value="online">online </option>
+    </select><br><br> 
+    <!-- <button type="submit"  class="get-started-btn scrollto" style="justify-content: center;text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; color: black;border-right-style: hidden; background-color:rgb(25, 219, 161); font-family: Georgia, 'Times New Roman', Times, serif;"> Pay </button> -->
+
+<form action="{% url 'exapp:success' %}" method="POST">
+  <script    src="https://checkout.razorpay.com/v1/checkout.js" 
+    data-key = "rzp_test_KqegTBbnvoPiap"     
+    data-amount="5000000"   
+    data-currency="INR"
+    data-order_id="{{payment.id}}"
+    data-buttontext = 'Pay'
+    data-name="ExMoney pvt Ltd."    
+    data-description="Payment Gateway"    
+    data-image="https://example.com/your_logo.jpg"   
+    data-prefill.name="ExMoney"   
+    data-prefill.email="exmoney@example.com"    
+    data-theme.color="#0000FF">
+  </script><input type="hidden" custom="Hidden Element" name="hidden">
+  </form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><!-- End Hero -->
+{% else %}
+
+<section id="hero" class="d-flex flex-column justify-content-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-8">
+        <h1>Exchange Currency</h1>
+        <h2>Buy Foreign Currency at Live Exchange Rate</h2>
+      </div>
+    </div>
+  </div>
+</section><!-- End Hero -->
+
+<main id="main">
+
+  <!-- ======= About Us Section ======= -->
+  <section id="about" class="about">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>About Us</h2>
+        <p>The smartest, safest and the most economical way of carrying forex. Exchange foreign currency at interbank/ zero margin (above ₹1lakh)* exchange rates with Visa powered Forex cards that can be used worldwide for online transactions, at ATMs and merchant outlets abroad without paying any foreign additional fee. BookMyForex forex cards come with Zero hidden charges, Zero commissions and perfect interbank rates.</p>
+      </div>
+
+     
+  </section><!-- End About Us Section -->
+
+  <!-- ======= Services Section ======= -->
+  <section id="services" class="services">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Services</h2>
+        <p>We provide services of exchanging Indian currency with five different countries as American Dollar, European Euro, United Arab Emirates Diraham, Chinese Yan, Pakistani Rupee.</p>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+          <div class="icon-box">
+            <div class="icon"><i class="bx bx-world"></i></div>
+            <h4><a href="">INR to USD </a></h4>
+            
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+          <div class="icon-box">
+            <div class="icon"><i class="bx bx-world"></i></div>
+            <h4><a href="">INR to Euro</a></h4>
+            
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+          <div class="icon-box">
+            <div class="icon"><i class="bx bx-world"></i></div>
+            <h4><a href="">INR to Dirham</a></h4>
+            
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+          <div class="icon-box">
+            <div class="icon"><i class="bx bx-world"></i></div>
+            <h4><a href="">INR to Yuan</a></h4>
+
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+          <div class="icon-box">
+            <div class="icon"><i class="bx bx-world"></i></div>
+            <h4><a href="">INR to Pakistani Rupee</a></h4>
+            
+          </div>
+        </div>
+
+        
+
+      </div>
+
+    </div>
+  </section><!-- End Services Section -->
+
+  <!-- ======= Cta Section ======= -->
+  
+
+  <!-- ======= Features Section ======= -->
+  <section id="features" class="features">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-lg-6 order-2 order-lg-1">
+          <div class="icon-box mt-5 mt-lg-0">
+            <i class="bx bx-receipt"></i>
+            <p>Select your city, enter your forex requirements and complete a forex order booking online
+            
+          </div>
+          <div class="icon-box mt-5">
+            <i class="bx bx-cube-alt"></i>
+            <p>The bank or money exchanger with the best and the most reliable service standards around you will be selected</p>
+            
+          </div>
+          <div class="icon-box mt-5">
+            <i class="bx bx-images"></i>
+            <p>The bank or money exchanger selected will schedule your door delivery or you can pick up the order from their location</p>
+            
+          </div>
+          <div class="icon-box mt-5">
+            <i class="bx bx-shield"></i>
+            <p>Track your forex order online all the way until the final delivery or pick up is completed</p>
+            
+          </div>
+        </div>
+        <div class="image col-lg-6 order-1 order-lg-2" style='background-image: url("../img/features.jpg");'>
+      </div>
+      </div>
+
+    </div>
+  </section><!-- End Features Section -->
+
+  <!-- ======= Clients Section ======= -->
+  
+
+  <!-- ======= Counts Section ======= -->
+  
+  <!-- ======= Portfolio Section ======= -->
+  
+
+  <!-- ======= Pricing Section ======= -->
+  
+  <!-- ======= Faq Section ======= -->
+  <section id="faq" class="faq">
+    <div class="container-fluid">
+
+      <div class="row">
+
+        <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch  order-2 order-lg-1">
+
+          <div class="content">
+            <h3>Frequently Asked Questions</h3>
+           
+          </div>
+
+          <div class="accordion-list">
+            <ul>
+              <li>
+                <a data-toggle="collapse" class="collapse" href="#accordion-list-1">What does pay on delivery mean?<i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                <div id="accordion-list-1" class="collapse show" data-parent=".accordion-list">
+                  <p>
+                    Pay on delivery means that you don't have to pay anything until you receive your forex products. You can opt for pay on delivery by selecting the no obligation order on ExMoney.com site.
+                  </p>
+                </div>
+              </li>
+
+              <li>
+                <a data-toggle="collapse" href="#accordion-list-2" class="collapsed">What is your cancellation policy ? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                <div id="accordion-list-2" class="collapse" data-parent=".accordion-list">
+                  <p>
+                    Forex orders, where neither the full payment nor the refundable rate guarantee deposit has been paid, can be cancelled without any charge. In case a refundable rate guarantee deposit has been received against a forex order, cancelling the order would result in the forfeiture of the refundable rate guarantee deposit. In case a forex order is cancelled after the full payment against the same is received, BookMyForex would refund the total amount paid after the cancellation fee amounting to 2% of the order total.
+                  </p>
+                </div>
+              </li>
+
+              <li>
+                <a data-toggle="collapse" href="#accordion-list-3" class="collapsed">What is a fixed rate order?<i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                <div id="accordion-list-3" class="collapse" data-parent=".accordion-list">
+                  <p>
+                    BookMyForex.com allows you to freeze the live rates that you on site until three working days. This option gives you the benefit of booking your order when you think rates are likely to be favorable. You will be required to pay 2% of the order amount as a refundable rate guarantee deposit to freeze/fix the rates. This advance will be refunded to you in full immediately after the order is completed. You can book a fixed rate order from 10.00AM to 3:30PM on weekdays excluding bank holidays. Please note that while refund notification on your card will be instantaneous, balance restore process may take up to 10 days depending on the mode of payment and issuing Bank.
+                  </p>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img" style = "background-image : url( '../img/faq.jpg' );">&nbsp;</div>
+      </div>
+
+    </div>
+  </section><!-- End Faq Section -->
+
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Contact</h2>
+        
+      </div>
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div class="container">
+
+      <div class="row mt-5">
+
+        <div class="col-lg-4">
+          <div class="info">
+            <div class="address">
+              <i class="ri-map-pin-line"></i>
+              <h4>Location:</h4>
+              <p>ExMoney(p)Ltd.,BTM Layout, Banglore,  560068</p>
+            </div>
+
+            <div class="email">
+              <i class="ri-mail-line"></i>
+              <h4>Email:</h4>
+              <p>exmoney@example.com</p>
+            </div>
+
+            <div class="phone">
+              <i class="ri-phone-line"></i>
+              <h4>Call:</h4>
+              <p>+916301892264</p>
+            </div>
+
+          </div>
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+  </section>
+  {% endif %} 
+<!-- ======= Footer ======= -->
+<footer id="footer">
+  <div class="container">
+    <h3>ExMoney</h3>
+    <p>Buy Foreign Currency at Live Exchange Rate</p>
+    
+    <div class="copyright">
+      &copy; Copyright <strong><span>ExMoney</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/ -->
+      Designed by <a href="#"> ExMoney</a>
+    </div>
+  </div>
+</footer><!-- End Footer -->
+
+<div id="preloader"></div>
+  <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'exapp/assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'exapp/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'exapp/assets/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'exapp/assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'exapp/assets/vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'exapp/assets/vendor/counterup/counterup.min.js' %}"></script>
+  <script src="{% static 'exapp/assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'exapp/assets/vendor/venobox/venobox.min.js' %}"></script>
+  <script src="{% static 'exapp/assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'exapp/assets/js/main.js' %}"></script>
+
+</body>
+
+</html>
+
