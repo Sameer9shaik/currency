@@ -77,29 +77,36 @@
     <section id="hero" class="d-flex flex-column justify-content-center">
       
         <div class="container">
-          <h2 style="text-align: left;color: white;">INR to Yuan Currency Converter with Live Rate</h2>
+          <!-- <h2 style="text-align: left;color: white;">INR to Yuan Currency Converter with Live Rate</h2> -->
           <div class="row justify-content-center">
             <div class="col-xl-8 offset-md-34">
               <div class="card">
                 <div class="card-header shawdow-ms bg-light">
-<h5 style="color: black; text-align: left;">INR to Yuan Currency Converter  </h5><br><br>
 <form method="POST" action="">
-  <select id="converter" name="forex_converter">
-    <option value="USD">USD</option>
-    <option value="Euro">Euro</option>
-    <option value="UA DIRAHAM ">UA Dirham</option>
-    <option value="YUAN">Yuan</option>
-    <option value="PK RUPEE">Pakistani Rupee</option>
-  </select>
-  <input type="number" name ='cconverter' placeholder="USD Amount"><br><br>
-    
-<select id="converter" name="converter" style="text-align:left;"> &nbsp;&nbsp;&nbsp;
-  <option value="INR">INR RUPEE</option>
-  <input type="number" name = 'inr_converter' placeholder="INR Amount"><br><br><br><br>
-</select>
-  
-<h5 style="font-family: 'Times New Roman';"> 1 Chinese Yuan = 11.27 INR </h5><br>
-    <button type="submit" class="get-started-btn scrollto" style="border-bottom-style: groove;color: black; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color:rgb(25, 219, 161);; font-family: Georgia, 'Times New Roman', Times, serif;"> CONVERT </button>
+  {% csrf_token %}
+  <div style="width: 400px; height: 150px;margin: 0px auto;  margin: top 20px;border: 2px solid black;text-align: center;">
+    <h5 style="text-align: center; color: black;"> Currency Converter </h5><br><br>
+  <table style="margin: 0px auto;">
+    <tr>
+
+      <td><input id= 'currency_from' type="text" size="15"></td>
+      <td><select id="currency_from" name="currency_from">
+        <option value="USD">US Dollar (USD) </option>
+        <option value="euro">European  (euro)</option>
+        <option value="Dirham">United Amirates (Dirham)</option>
+        <option value="Yuan" selected>Chinese (Yuan)</option>
+        <option value="pkr">Pakistani Rupee (pkr)</option>
+
+      </select><br></td>
+    </tr>
+    <tr>
+      <td><input id= 'currency_to' type="text" size="15" disabled></td>
+      <td><select id="currency_to" name="currency_to">
+        <option value="INR" selected> Indian Rupee (INR)</option>
+      </select><br></td>
+    </tr>
+  </table>
+</div>
 </form>
 </div>
 </div>

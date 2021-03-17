@@ -1,5 +1,4 @@
 from django.shortcuts import render,redirect
-# from forex_python.converter import CurrencyRates,CurrencyCodes
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
@@ -8,17 +7,14 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import CreateCurrencyOrderForm,CreateKycForm
 from .models import CurrencyOrder,kyc
 import json
-# import djmoney_rates
-# from djmoney_rates.utils import convert_money
-# from django.utils.encoding import python_2_unicode_compatible
-import requests as r
+import requests
 
 
-# Create your views here.
+# main index/home page #
 def index(request):
     return render(request,'exapp/index.html')
 
-
+# creating account # 
 def register(request):
     if request.method == 'POST':
         first_name = request.POST["fname"]
@@ -51,7 +47,7 @@ def register(request):
 
 
         
-
+# login section #
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -68,35 +64,32 @@ def login_view(request):
         return render(request, 'exapp/login.html')
 
 
-
+#logout function #
 def logout(request):
     auth.logout(request)
     return render(request,'exapp/index.html')
 
 
+
+# home section after logged in #
 def home(request):
-    return render(request,'exapp/home.html')
+    record =  User.objects.all()
+    orders = CurrencyOrder.objects.all()
+    return render(request,'exapp/home.html', {'record':record,'orders':orders})
 
 
+# view profile #
 
-def buy(request):
-    form = CreateCurrencyOrderForm()
-    if request.method == "POST":
-        form = CreateCurrencyOrderForm(request.POST)
-        response = requests.get('https://free.currconv.com/api/v7/convert?q=USD_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982')
-        data = response.json()
-        print(data)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.user = request.user
-            instance.save()
-            return redirect('exapp:kyc')
-    else:
-        form = CreateCurrencyOrderForm()
-    return render(request, 'exapp/buy.html', {'form':form})
-       
+def profile(request):
+    return render(request,'exapp/profile.html')
 
 
+# acconnt information  section #
+def account(request):
+    record =  User.objects.all()
+    return render(request,'exapp/acc.html',{'record':record})
+
+# transcations #
 
 def orders(request):
     orders = CurrencyOrder.objects.all()
@@ -104,39 +97,87 @@ def orders(request):
 
 
 
+# buying currency part #
 
-def profile(request):
-    record =  User.objects.all()
-    return render(request,'exapp/profile.html',{'record': record})
+def buy(request):
+
+    if request.method == 'POST':
+        currency_from = request.POST['currency_from']
+        currency_to = request.POST['currency_to']
+        forex_amount = request.POST['forex_amount']
+
+        if currency_from == 'USD':
+            res = requests.get("https://free.currconv.com/api/v7/convert?q=USD_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
+            data = res.json()
+            result = data['USD_INR']
+            inr_amount = result * float(forex_amount)
+            
+          
+
+        elif currency_from == 'euro':
+            res = requests.get("https://free.currconv.com/api/v7/convert?q=EUR_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
+            data = res.json()
+            result = data['EUR_INR']
+            inr_amount = result * float(forex_amount)
+
+        elif currency_from == 'Dirham':
+            res = requests.get("https://free.currconv.com/api/v7/convert?q=MAD_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
+            data = res.json()
+            result = data['MAD_INR']
+            inr_amount = result * float(forex_amount)
+
+
+        elif currency_from == 'Yuan':
+            res = requests.get("https://free.currconv.com/api/v7/convert?q=CNY_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
+            data = res.json()
+            result = data['CNY_INR']
+            inr_amount = result * float(forex_amount)
+        
+
+        elif currency_from == 'pkr':
+            res = requests.get("https://free.currconv.com/api/v7/convert?q=PKR_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
+            data = res.json()
+            result = data['PKR_INR']
+            inr_amount = result * float(forex_amount)
+            
+
+        if inr_amount >= 10000 and  ( inr_amount % 5 ):
+            currency = CurrencyOrder.objects.create(user=request.user,currency_from=currency_from,currency_to=currency_to,forex_amount=forex_amount,inr_amount=inr_amount)
+            currency.save()
+            return render(request,'exapp/kyc.html')
+            # return redirect('exapp/kyc.html')
+        
+        else:
+            messages.info(request,'* Warning : INR Amount must be greater than 10,000 INR and multiples of 500 *')
+            return render(request,'exapp/buy.html',{'inr_amount':inr_amount,'forex_amount':forex_amount})
+
+        
+        
+    else:
+        return render(request,'exapp/buy.html')
 
 
 
 
-def account(request):
-    return render(request,'exapp/acc.html')
-
-
-
+    
+# kyc section #
 
 def kyc_add(request):
-
-    # doc = CreateKycForm()
     if request.method == 'POST':
-        # doc = CreateKycForm(request.POST,request.FILES)
-        # if doc.is_valid():
-            pancard = request.FILES['pancard']
-            aadhar = request.FILES['aadhar']
-            # print(request.FILES)
+        pancard = request.FILES['pancard']
+        aadhar = request.FILES['aadhar']
+        if pancard and aadhar :
             doc1 = kyc.objects.create(user=request.user,aadhar=aadhar,pancard=pancard)
-            # instance = doc.save(commit=False)
-            # instance.user = request.user
-            # instance.save()
             messages.info(request,"*Document Uploaded  Sucessfully")
-            messages.info(request,"*Note : Your documents is being processed by Processed Manager")
-
+            messages.info(request,"*Sit and Relax : will get back after your  documents is being processed by Processed Manager")
             return redirect('exapp:kyc')
-    # else:
-    #     form = CreateKycForm()
+        else:
+            messages.info(request,"* Both Documents needs to be uploaded *")
+            return redirect('exapp:kyc')
+
+        
+
+        return redirect('exapp:kyc')
 
     return render(request,'exapp/kyc.html')
            
@@ -145,7 +186,7 @@ def kyc_add(request):
         
     
 
-
+# payment section #
 
 def pay(request):
     if request.method == 'POST':
@@ -156,6 +197,7 @@ def pay(request):
     return render(request,'exapp/pay.html')
 
 
+# sucess page after payment #
 @csrf_exempt
 def success(request):
     return render(request,'exapp/success.html')
@@ -167,25 +209,53 @@ def transcation(request):
 
 
 def usd(request):
+
     if request.method == 'POST':
-        currency_to = request.POST['currency_to']
         currency_from = request.POST['currency_from']
-        response = r.get('https://free.currconv.com/api/v7/convert?q=USD_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982').json()
-        currency_from = currency_to.get('value') * r
-        print(response)
-    return render(request,'exap/usd.html')
+        currency_to = request.POST['currency_to']
+        forex_amount = request.POST['forex_amount']
+       
+        if currency_from == 'USD':
+            res = requests.get("https://free.currconv.com/api/v7/convert?q=USD_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
+            data = res.json()
+            result = data['USD_INR']
+            inr_amount = result * float(forex_amount)
+            return render(request,'exapp/usd.html',{'inr_amount':inr_amount})
+
+        else:
+            return render(request,'exapp/usd.html')
     
     
 def euro(request):
+    res = requests.get("https://free.currconv.com/api/v7/convert?q=EUR_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
+    data = res.json()
+    curr = data['EUR_INR']
+    if request.method == 'GET':
+        value = request.GET['inr_amount']
     return render(request,'exapp/euro.html')
 
 def dirham(request):
+    res = requests.get("https://free.currconv.com/api/v7/convert?q=MAD_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
+    data = res.json()
+    curr = data['MAD_INR']
+    if request.method == 'GET':
+        value = request.GET['inr_amount']
     return render(request,'exapp/dirham.html')
 
 def yuan(request):
+    res = requests.get("https://free.currconv.com/api/v7/convert?q=CNY_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
+    data = res.json()
+    curr = data['CNY_INR']
+    if request.method == 'GET':
+        value = request.GET['inr_amount']
     return render(request,'exapp/yuan.html')
 
 def pkr(request):
+    res = requests.get("https://free.currconv.com/api/v7/convert?q=PKR_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
+    data = res.json()
+    curr = data['PKR_INR']
+    if request.method == 'GET':
+        value = request.GET['inr_amount']
     return render(request,'exapp/pkr.html')
 
 

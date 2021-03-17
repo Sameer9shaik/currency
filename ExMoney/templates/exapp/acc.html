@@ -54,10 +54,11 @@
                 
                 <li class="drop-down"><a href="" style="color: #00b371;"> {{user.first_name}} {{user.last_name}} </a>
                   <ul>
+                    <li><a href="{% url 'exapp:profile' %}"> My profile</a></li>
                     <li><a href="{% url 'exapp:buy' %}"> Buy Currency</a></li>
-                    <li><a href="{% url 'exapp:orders' %}"> Orders </a></li>
+                    <!-- <li><a href="{% url 'exapp:orders' }"> Orders </a></li>
                     <li><a href="{% url 'exapp:transcations' %}">Transcations </a></li>
-                    <li><a href="{% url 'exapp:kyc' %}">Kyc </a></li>
+                    <li><a href="{% url 'exapp:kyc' %}">Kyc </a></li> -->
                     <li><a href="{% url 'exapp:logout' %}">Logout</a></li>
                     {% else %}
                     <h1 class="logo"><a href="{% url 'exapp:index' %}">ExMoney</a></h1>
@@ -107,14 +108,15 @@
               <div class="card-header shawdow-ms bg-light">
                 <h3 style="color: #00b371;text-align: center;"> ACCOUNT INFORMATION </h3><br>
                 <p style="text-align: end;"> Hello {{user.first_name}} {{user.last_name}}</p><hr>
-                <form method="POST" action="{% url 'exapp:profile' %}" style="text-align:center;">
-                    {% csrf_token %}
                         <div style="text-align: left;">
                        Full  Name : &nbsp&nbsp&nbsp&nbsp&nbsp{{ user.first_name }} {{ user.last_name }}<br><hr>
                        First Name : &nbsp&nbsp&nbsp&nbsp&nbsp{{ user.first_name }}  &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
                        Last Name : &nbsp&nbsp&nbsp&nbsp&nbsp{{ user.last_name }}  &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
                        Username : &nbsp&nbsp&nbsp&nbsp&nbsp{{ user.username }}  &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
                        Email : &nbsp&nbsp&nbsp&nbsp&nbsp{{user.email}} &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
+                       <!-- Aadhar : &nbsp&nbsp&nbsp&nbsp&nbsp{{do}} &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr> -->
+                      
+                       Kyc Status : &nbsp&nbsp&nbsp&nbsp&nbsp{{doc1.status}} &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
                       </div>
                   </form>
               </div>

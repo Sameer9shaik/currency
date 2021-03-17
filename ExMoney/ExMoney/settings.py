@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'exapp',
-    # 'djmoney_rates',
+    
 ]
 
 # DJANGO_MONEY_RATES = {

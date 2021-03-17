@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>ExMoney Currency Buy</title>
+  <title>INR Caluculator Page</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -54,9 +54,9 @@
               <li class="drop-down"><a href="" style="color: #00b371;"> {{user.first_name}} {{user.last_name}} </a>
                 <ul>
                   <li><a href="{% url 'exapp:profile'  %}"> My profile</a></li>
-                  <!-- <li><a href="{% url 'exapp:orders' %}"> Orders </a></li>
+                  <li><a href="{% url 'exapp:orders' %}"> Orders </a></li>
                   <li><a href="{% url 'exapp:transcations' %}">Transcations </a></li>
-                  <li><a href="{% url 'exapp:kyc' %}">Kyc </a></li> -->
+                  <li><a href="{% url 'exapp:kyc' %}">Kyc </a></li>
                   <li><a href="{% url 'exapp:logout' %}">Logout</a></li>
                 </ul>
               </li>
@@ -72,14 +72,6 @@
                 <li><a href="{% url 'exapp:index' %}">About</a></li>
                 <li><a href="{% url 'exapp:index' %}">Services</a></li>
                 
-                <!-- <li class="drop-down"><a href="">Currency Converter</a>
-                  <ul>
-                    <li><a href="{% url 'exapp:usd' %}">INR to USD</a></li>
-                    <li><a href="{% url 'exapp:euro' %}">INR to Euro</a></li>
-                    <li><a href="{% url 'exapp:dirham' %}">INR to Dirham</a></li>
-                    <li><a href="{% url 'exapp:yuan' %}">INR to Yuan</a></li>
-                    <li><a href="{% url 'exapp:pkr' %}">INR to Pakistani Rupee</a></li>
-                  </ul> -->
                 </li>
               </ul>
             </nav><!-- .nav-menu -->
@@ -100,38 +92,22 @@
           <div class="col-xl-8 offset-md-34">
             <div class="card">
               <div class="card-header shawdow-ms bg-light">
-                <h2 style="color:#00b371; text-align: center;"> BUY CURRENCY  </h2><br>
-                  <form method ="POST" action="{% url 'exapp:buy' %}"> 
+                <h2 style="color:#00b371; text-align: center;"> INR Caluculator  </h2><br>
+                  <form method ="POST" action="{% url 'exapp:inr' %}"> 
                         {%csrf_token %}
                         <div style="text-align: center;">
-                          Currency : <select id="currency_from" name="currency_from">
-                            <option value="USD">US Dollar (USD) </option>
-                            <option value="euro">European  (euro)</option>
-                            <option value="Dirham" >United Amirates (Dirham)</option>
-                            <option value="Yuan">Chinese (Yuan)</option>
-                            <option value="pkr">Pakistani Rupee (pkr)</option>
-                    
-                          </select>
-                           To <select id="currency_to" name="currency_to">
-                            <option value="INR" selected> Indian Rupee (INR)</option>
-                          </select><br><br>
-                          Forex Amount : <input id= 'forex_amount' name="forex_amount" value="{{forex_amount}}" type="number"><br><br>
-                          Inr Amount : <input id= 'inr_amount' name="inr_amount" value="{{inr_amount}}" type="number"><br><br> 
-                           {% for message in messages %}
-                          <p style="color:red"> {{message}} </p>
-                          {% endfor %} 
-                        </div>
+                        {% for order in orders %}
+                        Currency : {{order.currency_from}} To {{order.currency_to}}<br>
+                        Forex Amount :  {{order.forex.amount}} <br>
 
+                        {% endfor %}
 
-                        <div style="text-align: center;">
+                        
+                        Inr Amount : <input id= 'inr_amount' name="inr_amount" value="{{inr_amount}}" type="number"><br><br>
+                
+
+                        
                         <button type="submit" class="get-started-btn scrollto" style="justify-content: center;text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; color: black;border-right-style: hidden; background-color:rgb(25, 219, 161); font-family: Georgia, 'Times New Roman', Times, serif;"> Place the Order </button>
-                        </div>
-                        <div style="color:rgb(16, 190, 94)">
-                          <p> Neccessary  :  </p>
-                          <p> 1.Selected desired Currency </p>
-                          <p> 2.Enter your Desired Forex Value  </p>
-                          <p> 3.Click On place order </p>
-
                         </div>
                   </form>
               </div>
