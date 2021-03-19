@@ -27,13 +27,7 @@ urlpatterns = [
     path('success/',success, name='success'),
 
     
-    path('usd/',usd, name='usd'),
-    path('euro/',euro, name='euro'),
-    path('dirham/',dirham, name='dirham'),
-    path('yuan/',yuan, name='yuan'),
-    path('pkr/',pkr, name='pkr'),
-    
-
+   
 ]
 
 if settings.DEBUG:
