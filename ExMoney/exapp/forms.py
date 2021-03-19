@@ -19,4 +19,4 @@ class CreateCurrencyOrderForm(forms.ModelForm):
 class CreateKycForm(forms.ModelForm):
     class Meta:
         model = kyc
-        fields = ['pancard','aadhar']
+        fields = ['pancard','aadhar','status']

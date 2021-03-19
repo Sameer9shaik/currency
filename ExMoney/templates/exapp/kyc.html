@@ -99,33 +99,53 @@
       <div class="row justify-content-center">
         <div class="col-xl-8 offset-md-34">
           <div class="card">
-            <div class="card-header shawdow-ms bg-light">
-                <h2 style="color: black;"> KYC DOCUMENTS </h2>
 
-                <form action="{% url 'exapp:kyc' %}" method="POST" style="text-align: justify;" enctype="multipart/form-data">
-                  <div style="text-align: center;">
+            {% if kycs %}
+          
+              {% for i in kycs %}
+                {% if i.status == True %}
+                      <div class="card-header shawdow-ms bg-light">
+                            <h2 style="color: black;"> KYC DOCUMENTS </h2>
+                            Pancard : <img src="{{ i.pancard }}" alt="pancard pic" width="300" height="150" /><hr><br>
+                            Aadhar :  <img src = "{{ i.aadhar }}" alt="aadhar pic " width="300" height="150"/><hr><br>
+                            <p style="color: black;">KYC Status : approved</p>
+                      </div>
+                {% elif i.status == False %}
+                      <div class="card-header shawdow-ms bg-light">
+                          <h2 style="color: black;"> KYC DOCUMENTS </h2>
+                          Pancard : <img src="{{ i.pancard }}" alt="pancard pic" width="300" height="150" /><hr><br>
+                          Aadhar :  <img src = "{{ i.aadhar }}" alt="aadhar pic " width="300" height="150"/><hr><br>
+                          <p style="color: black;">KYC Status : Pending</p>
+                          <p style="color: red"> Sit and Relax,Your documents will be approved  by Processed Manager within 72 hrs </p>
+                      </div>
+                {% endif %}
+              {% endfor %}
 
-                  {% csrf_token %}
-                  <!-- Attach Aadhar : {{ doc.aadhar}} <br><br>
-                  Attach Panard  : {{ doc.pancard}}<br><br> --> 
-                  <label for="img"> Attach Your Aadhar :</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="file" id="aadhar" name="aadhar" accept="image/*"><br>
-                  <!-- <button type="submit">upload </button><br><br> -->
-                  <label for="img"> Attach Your Pancard :</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="file" id="pancard" name="pancard" accept="image/*"><br><br>
-                  <!-- <button type="submit">upload </button><br><br> -->
-                  {% for message in messages %}
-                  <p style="color:red"> {{message}} </p>
-                  {% endfor %}
-                  </div>
-                  <div style="text-align: center;">
-                  <button type="submit"  class="get-started-btn scrollto" style="text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; color: black;border-right-style: hidden; background-color:rgb(25, 219, 161); font-family: Georgia, 'Times New Roman', Times, serif;"> Upload  </button>
-                
+            {% else %}
+
+              <div class="card-header shawdow-ms bg-light">
+              <h2 style="color: black;"> KYC DOCUMENTS </h2>
+              <form action="{% url 'exapp:kyc' %}" method="POST" style="text-align: justify;" enctype="multipart/form-data">
+                <div style="text-align: center;">
+                {% csrf_token %}
+                <label for="img"> Attach Your Aadhar :</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="file" id="aadhar" name="aadhar" accept="image/*"><br>
+                <label for="img"> Attach Your Pancard :</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="file" id="pancard" name="pancard" accept="image/*"><br><br>
+                {% for message in messages %}
+                <p style="color:red"> {{message}} </p>
+                {% endfor %}
                 </div>
-                </form>
+                <div style="text-align: center;">
+                  <button type="submit"  class="get-started-btn scrollto" style="text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; color: black;border-right-style: hidden; background-color:rgb(25, 219, 161); font-family: Georgia, 'Times New Roman', Times, serif;"> Upload  </button>
+                </div>
+              </form>
+              </div>
 
-                
-            </div>
+            {% endif %}
+            
+
+
           </div>
         </div>
       </div>

@@ -16,6 +16,7 @@ urlpatterns = [
 
     path('home/',home, name='home'),
     path('profile/',profile, name='profile'),
+
     path('orders/',orders, name='orders'),
     path('kyc/',kyc_add, name='kyc'),
     path('transcations/',transcation,name='transcations'),

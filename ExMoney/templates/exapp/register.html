@@ -84,6 +84,7 @@
               <h2 style="color: black;"> REGISTRATION </h2><br>
           <form method="POST" action="{% url 'exapp:register' %}" style="text-align: center;">
                {% csrf_token %}
+               <!-- <lablel for ="fname">First Name</lablel><br> -->
                <input type="text" name='fname'placeholder="Enter Your First Name * " required style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br><br>
                <!-- {{form.first_name}} -->
               <input type="text" name='lname'placeholder="Enter Your Last Name * " required   style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br><br>
@@ -94,7 +95,7 @@
               <!-- {{form.password1}} -->
               <input type="password" name='pass1' placeholder="Enter password * " required  style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br><br>
               <!-- {{form.password2}} -->
-              <input type="password" name='pass2' placeholder="Confirm password * " required " style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br><br>
+              <input type="password" name='pass2' placeholder="Confirm password * " required  style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br><br>
               {% for message in messages %}
               <p style="color:red"> {{message}} </p>
               {% endfor %}
@@ -107,7 +108,7 @@
               <!-- <p style="color:blue"> Dont have account create here </p> -->
               <!-- <button type="submit" class="get-started-btn scrollto">Register</button> -->
               
-              <a href="{% url 'exapp:login' %}" class="signin-image-link" style="color:blue;"><u>Already Have a account</u></a>
+              <a href="{% url 'exapp:login' %}"  class="get-started-btn scrollto" style="border-bottom-style: groove;color: black; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color:rgb(25, 219, 161);; font-family: Georgia, 'Times New Roman', Times, serif;"><u>Already Have a account</u></a>
           
           <!-- <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox play-btn mb-4" data-vbtype="video" data-autoplay="true"></a> -->
             </div>

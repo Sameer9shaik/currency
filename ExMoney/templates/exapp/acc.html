@@ -114,9 +114,13 @@
                        Last Name : &nbsp&nbsp&nbsp&nbsp&nbsp{{ user.last_name }}  &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
                        Username : &nbsp&nbsp&nbsp&nbsp&nbsp{{ user.username }}  &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
                        Email : &nbsp&nbsp&nbsp&nbsp&nbsp{{user.email}} &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
-                       <!-- Aadhar : &nbsp&nbsp&nbsp&nbsp&nbsp{{do}} &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr> -->
-                      
-                       Kyc Status : &nbsp&nbsp&nbsp&nbsp&nbsp{{doc1.status}} &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
+                       {% for kyc in kycs %}
+                       Kyc Status : &nbsp&nbsp&nbsp&nbsp&nbsp{% if kyc.status == True %}
+                       <td> Approved </td>
+                       {% else %}
+                       <td> Pending </td> &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
+                       {% endif %}
+                      {% endfor %}
                       </div>
                   </form>
               </div>

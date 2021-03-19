@@ -37,13 +37,14 @@ class CurrencyOrder(models.Model):
                         )
     currency_to = models.CharField(max_length=3, default='-', choices=to_choices)
     
-    forex_amount         = models.DecimalField(max_digits=15,decimal_places=5,null=True)
-    inr_amount           = models.DecimalField(max_digits=15, decimal_places=5,null=True)
-    date                 = models.DateField(auto_now=True)
-    user                 = models.ForeignKey(User, on_delete=models.CASCADE)
+    forex_amount  = models.DecimalField(max_digits=15,decimal_places=2,null=True)
+    inr_amount    = models.DecimalField(max_digits=15, decimal_places=2,null=True)
+    total_amount  = models.DecimalField(max_digits=15,decimal_places=2,null=True)
+    date          = models.DateField(auto_now=True)
+    user          = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.id)
 
     
 
@@ -54,20 +55,12 @@ class kyc(models.Model):
     status              = models.BooleanField(default=False)
     user                = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    
-
-    # def pancard(self):
-    #     return mask_safe('<img src="{}"width="100"/>'.format(self.pancard.url))
-    #     pancard.short_description = 'Image'
-    #     pancard.allow_tags = True
-
-    # def aashar(self):
-    #     return mask_safe('<img src="{}"width="100"/>'.format(self.aadhar.url))
-    #     pancard.short_description = 'Image'
-    #     pancard.allow_tags = True
-
     def __str__(self):
         return str(self.user)
+
+    
+
+    
 
 
 
