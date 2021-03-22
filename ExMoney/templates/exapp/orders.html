@@ -56,6 +56,7 @@
                 <ul>
                   <li><a href="{% url 'exapp:profile' %}"> My profile</a></li>
                   <li><a href="{% url 'exapp:buy' %}">Buy Currency </a></li>
+                  <li><a href="{% url 'exapp:pay' %}">Pay </a></li>
                   <li><a href="{% url 'exapp:index' %}">Logout</a></li>
 {% else %}
               <h1 class="logo"><a href="{% url 'exapp:index' %}">ExMoney</a></h1>
@@ -89,56 +90,85 @@
        
 </header><!-- End Header -->
 {% if user.is_authenticated %}
-<section id="hero" class="d-flex flex-column justify-content-center">
-    <div class="container" style="box-sizing: content-box;">
+<section id="hero" class="d-flex flex-column justify-content-center" >
+    <div class="container" style="box-sizing: content-box;" >
       <div class="row justify-content-center">
         <div class="col-xl-8 offset-md-34">
           <div class="card">
-            <div class="card-header shawdow-ms bg-light">
-                <h2 style="color: #00b371;"> YOUR TRANSCATIONS </h2>
+            <div class="card-header shawdow-ms bg-light"style=" width: max-content;">
+                <h2 style="color: #00b371; font-weight: bold;"> YOUR TRANSCATIONS </h2>
                 
                 <style>
-                  table, td, th {
-                    border: 2px solid black;
-                  }
-                  
-                  table {
-                    width: 100%;
-                    position:relative;
+                  .content-table {
+                    text-align: start;
+                    width: max-content;
                     border-collapse: collapse;
+                    margin: 25px 0;
+                    font-size: 0.9em;
+                    min-width: 400px;
+                    border-radius: 5px 5px 0 0;
+                    overflow: hidden;
+                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+                  }
+                  .content-table thead tr{
+                    background-color: #009879;
+                    color: white;
+                    text-align: left;
+                    font-weight: bold;
+                  }
+                  .content-table th,
+                  .content-table td{
+                    padding: 12px 15px;
+                  }
+                  .content-table tbody tr{
+                    border-bottom: 1px solid #dddddd;
+
+                  }
+                  .content-table tbody tr:nth-of-type(even){
+                    background-color: #f3f3f3;
+                  }
+                  .content-table tbody tr:last-of-type {
+                    border-bottom:  2px solid #009879;
+                  }
+                  .content-table tbody tr.active-row {
+                    font-weight: bold;
+                    color: black;
+
                   }
                   </style>                
-                  <table>
+                  <table class="content-table">
+                    <thead>
                   
-                  <tr>
-                    <th>Order Id</th>
-                    <th>Order Date</th>
-                    <th>Currency</th>
-                    <th>Forex Amount</th>
-                    <th>Amount (in INR )</th>
-                    <th>Total Amount (to be paid)</th>
-                  </tr>
+                          <tr>
+                            <th>Order Date</th>
+                            <th>Currency</th>
+                            <th>Forex Rate</th>
+                            <th>Forex Amount</th>
+                            <th>Amount (in INR )</th>
+                            <th>Commission (3%) </th>
+                            <th>Total Amount (to be paid)</th>
+                          </tr>
+                    </thead>
                   
                 
                   {% for order in orders %}
-                  <tr>
-                    <td>{{order.id}}</td>
-                    <td>{{order.date}}</td>
-                    <td>{{order.currency_from}} - {{order.currency_to}}</td>
-                    <td>{{order.forex_amount}}</td>
-                    <td>{{order.inr_amount}}</td>
-                    <td>{{order.total_amount}}</td>
-
-                    
-                    
-
-                  </tr>
+                  <tbody>
+                      <tr class="active-row">
+                        <td>{{order.date}}</td>
+                        <td>{{order.currency_from}} - {{order.currency_to}}</td>
+                        <td>{{order.currency_from}}-{{order.forex_rate}}</td>
+                        <td>{{order.forex_amount}}</td>
+                        <td>{{order.inr_amount}}</td>
+                        <td>{{order.Commission_amount}}</td>
+                        <td>{{order.total_amount}}</td>
+                      </tr>
+                    </tbody>
                   {% endfor %}
                   
 
                 </table>
               </div>
-                <hr>
+                
                 </div>
                 </form>
             </div>

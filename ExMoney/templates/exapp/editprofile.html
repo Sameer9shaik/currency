@@ -104,59 +104,84 @@
           <div class="col-xl-8 offset-md-34">
             <div class="card">
               <div class="card-header shawdow-ms bg-light">
-                <div class="container">
-                  <div class="row">
-                      <div class="col-md-6 mx-auto py-4">
-                          <div class="card">
-                              <div class="card-header">
-                                  <h3 style="color: #00b371; font-weight: bold;">MY DETAILS</h3>
-                              </div>
-                              <div class="card-body">
-                                  <table class="table table-bordered">
-                                      <tbody>
-                                          <tr>
-                                              <th>User ID</th>
-                                              <td>{{user.id}}</td>
-                                          </tr>
-                                          <tr>
-                                              <th>Username</th>
-                                              <td>{{user.username}}</td>
-                                          </tr>
-                                          <tr>
-                                              <th>Full Name</th>
-                                              <td>{{user.first_name}} {{user.last_name}}</td>
-                                          </tr>
-                                         
-                                          <tr>
-                                              <th>Last Login</th>
-                                              <td>{{user.last_login}}</td>
-                                          </tr>
-                                          <tr>
-                                              <th>Join Date</th>
-                                              <td>{{user.date_joined}}</td>
-                                          </tr>
-                                          
-                                      </tbody>
-                                  </table>
-                                  
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div style="text-align: center;">
-                <a href="{% url 'exapp:editprofile' %}" class="get-started-btn scrollto" style="justify-content: center;text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; width:50%;color: black;border-right-style: hidden; background-color:rgb(25, 219, 161); font-weight: bold;"> Edit Profile</a>
-                </div>                       
-                            <!-- {% for kyc in kycs %}
-                              Kyc Status : &nbsp&nbsp&nbsp&nbsp&nbsp{% if kyc.status == True %}
-                            <td> Approved </td>
-                            {% else %}
-                            <td> Pending </td> &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
+                <h3 style="color: #00b371;text-align: center; font-weight: bold;"> EDIT PROFILE </h3><br>
+                <!-- <p style="text-align: end;"> Hello {{user.first_name}} {{user.last_name}}</p><hr> -->
+                      <div class="card-body">
+                        <form action="{% url 'exapp:editprofile'%}" method="POST">
+                            {% csrf_token %}
+                            {% if status %}
+                              <div class="alert alert-primary">{{status}}</div>
                             {% endif %}
-                            {% endfor %} -->
+
+                            <div class="form-group">
+                                <div class="row">
+                                    
+                                    <div class="col-md-6">
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" name="fname" placeholder="Enter First Name" value="{{user.first_name}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control" name="lname" placeholder="Enter Last Name" value="{{user.last_name}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Username</label>
+                                        <input type="text" class="form-control" name="username" placeholder="Enter Username" value="{{user.username}}">
+                                    </div>
+                                   
+                                    
+                                    <div class="col-md-6">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control" name="email" placeholder="Enter Name" value="{{user.email}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Contact Number</label>
+                                        <input type="text" value="{{data.contact_number}}" class="form-control" name="contact" placeholder="Enter Contact Number" pattern="[0-9]{10}" title="Number must contain 10 digits only!!">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Age (in years)</label>
+                                        <input type="number" class="form-control" name="age" placeholder="Enter Age" min="15" max="99"
+                                        value="{{data.age}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>City</label>
+                                        <input type="text" class="form-control" name="city" placeholder="Enter City" value="{{data.city}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Gender</label>
+                              
+                                        <select name="gender"  class="form-control">
+                                            <option value="Male">Male</option>
+            
+                                            {% if data.gender == "Female" %}
+                                            <option value="Female" selected>Female</option>
+                                            {% else %}
+                                            <option value="Female">Female</option>
+                                            {% endif %}
+            
+                                            {% if data.gender == "Others" %}
+                                            <option value="Others" selected>Others</option>
+                                            {% else %}
+                                            <option value="Others">Others</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                          
+
+                           
+                            <div class="form-group">
+                                <input type="submit" name="changeprofile" value="Save Changes" class="get-started-btn scrollto" style="justify-content: center;text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; width:50%;color: black;border-right-style: hidden; background-color:rgb(25, 219, 161); font-weight: bold;">
+                            </div>
+
+                        </form>
+                      </div>
+                       
+                            
 
                       </div>
-                  </form>
+                  
               </div>
             </div>
           </div>

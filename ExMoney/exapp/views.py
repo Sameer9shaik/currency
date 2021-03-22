@@ -3,9 +3,10 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .forms import CreateCurrencyOrderForm,CreateKycForm
-from .models import CurrencyOrder,kyc
+from .forms import CreateCurrencyOrderForm,CreateKycForm, CreateUserForm
+from .models import CurrencyOrder,kyc,Profile,CreateOrder
 import json
 import requests
 import re
@@ -28,27 +29,20 @@ def register(request):
         if pass1 == pass2:
 
             if User.objects.filter(username=username).exists():
-                messages.info(request,"*WARNING : Username Already in Use")
+                messages.info(request," Username Already in Use....!")
                 return redirect('exapp:register')
 
             elif User.objects.filter(email=email).exists():
-                messages.info(request,"*WARNING :Email ID Already in Use")
+                messages.info(request,"Email ID Already in Use....!")
                 return redirect('exapp:register')
 
-            elif re.search('[A-Z]', pass1)==None and re.search('[0-9]', password)==None and re.search('[^A-Za-z0-9]', pass1)==None:
-                messages.error(request,"* Warning : Password should be alphanumeric")
-                return redirect('exapp:regoster')
-
-            elif  request.user.email.endswith('@example.com'):
-                messages.info(request,"* Warning: Email should end with @example.com")
-                return redirect('exapp:register')
             else:
                 user = User.objects.create_user(username=username, password=pass1, email=email, first_name=first_name, last_name=last_name)
                 user.save()
-                messages.info(request,"*User Registered Sucessfully")
+                messages.info(request,"User Registered Sucessfully....!")
                 return redirect("exapp:login")
         else:
-            messages.info(request,"WARNING :Both Password and Confirm password are not matching")
+            messages.info(request,"Both Password and Confirm password are not matching....!")
             return render(request, 'exapp/register.html')
     else:
         return render(request,'exapp/register.html')
@@ -95,12 +89,55 @@ def profile(request):
     return render(request,'exapp/profile.html')
 
 
+#edit profile # 
+def edit_profile(request):
+    context = {}
+    check = Profile.objects.filter(user__id=request.user.id)
+    if len(check)>0:
+        data = Profile.objects.get(user__id=request.user.id)
+        context["data"]=data
+
+        if request.method=="POST":
+            fn = request.POST["fname"]
+            ln = request.POST["lname"]
+            em = request.POST["email"]
+            con = request.POST["contact"]
+            age = request.POST["age"]
+            ct = request.POST["city"]
+            gen = request.POST["gender"]
+
+            usr = User.objects.get(id=request.user.id)
+            usr.first_name = fn
+            usr.last_name = ln
+            usr.email = em
+            usr.save()
+
+            data.contact_number = con
+            data.age = age
+            data.city = ct
+            data.gender = gen
+            data.occupation = occ
+            data.about = abt
+            data.save()
+        
+        context["status"] = "Changes Saved Successfully"
+    return render(request,"exapp/editprofile.html",context)
+
+        
+
+    
+
+
+
+
+
 # acconnt information  section #
 def account(request):
     current_user = get_object_or_404(User, username=str(request.user))
+    data = Profile.objects.filter(user=current_user)
     record =  User.objects.all()
     kycs = kyc.objects.filter(user=current_user)
-    return render(request,'exapp/acc.html',{'record':record,'kycs':kycs})
+    return render(request,'exapp/acc.html',{'record':record,'kycs':kycs,'data':data})
 
 # transcations #
 
@@ -121,69 +158,73 @@ def buy(request):
         currency_to = request.POST['currency_to']
         forex_amount = request.POST['forex_amount']
 
+
         if currency_from == 'USD':
             res = requests.get("https://free.currconv.com/api/v7/convert?q=USD_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
             data = res.json()
-            result = data['USD_INR']
-            inr_amount = result * float(forex_amount)
-            amount= inr_amount * 0.03
-            total_amount = inr_amount + amount
+            forex_rate = data['USD_INR']
+            inr_amount = forex_rate * float(forex_amount)
+            Commission_amount= inr_amount * 0.03
+            total_amount = inr_amount + Commission_amount
             
-          
-
         elif currency_from == 'euro':
             res = requests.get("https://free.currconv.com/api/v7/convert?q=EUR_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
             data = res.json()
-            result = data['EUR_INR']
-            inr_amount = result * float(forex_amount)
-            amount= inr_amount * 0.03
-            total_amount = inr_amount + amount
-
+            forex_rate = data['EUR_INR']
+            inr_amount = forex_rate * float(forex_amount)
+            Commission_amount= inr_amount * 0.03
+            total_amount = inr_amount + Commission_amount
 
         elif currency_from == 'Dirham':
             res = requests.get("https://free.currconv.com/api/v7/convert?q=MAD_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
             data = res.json()
-            result = data['MAD_INR']
-            inr_amount = result * float(forex_amount)
-            amount= inr_amount * 0.03
-            total_amount = inr_amount + amount
-
+            forex_rate = data['MAD_INR']
+            inr_amount = forex_rate * float(forex_amount)
+            Commission_amount= inr_amount * 0.03
+            total_amount = inr_amount + Commission_amount
 
         elif currency_from == 'Yuan':
             res = requests.get("https://free.currconv.com/api/v7/convert?q=CNY_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
             data = res.json()
-            result = data['CNY_INR']
-            inr_amount = result * float(forex_amount)
-            amount= inr_amount * 0.03
-            total_amount = inr_amount + amount
+            forex_rate = data['CNY_INR']
+            inr_amount = forex_rate * float(forex_amount)
+            Commission_amount = inr_amount * 0.03
+            total_amount = inr_amount + Commission_amount
         
-
         elif currency_from == 'pkr':
             res = requests.get("https://free.currconv.com/api/v7/convert?q=PKR_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
             data = res.json()
-            result = data['PKR_INR']
-            inr_amount = result * float(forex_amount)
-            amount= inr_amount * 0.03
-            total_amount = inr_amount + amount
-            
+            forex_rate = data['PKR_INR']
+            inr_amount = forex_rate * float(forex_amount)
+            Commission_amount= inr_amount * 0.03
+            total_amount = inr_amount + Commission_amount
 
-        if inr_amount >= 10000 and  ( inr_amount % 5 ):
-            currency = CurrencyOrder.objects.create(user=request.user,currency_from=currency_from,currency_to=currency_to,forex_amount=forex_amount,inr_amount=inr_amount,total_amount=total_amount)
-            currency.save()
-            return render(request,'exapp/kyc.html')
-            # return redirect('exapp/kyc.html')
-        
-        else:
-            messages.info(request,'* Warning : INR Amount must be greater than 10,000 INR and multiples of 500 *')
-            return render(request,'exapp/buy.html',{'inr_amount':inr_amount,'forex_amount':forex_amount})
+       
 
-        
+        currency = CreateOrder.objects.create(user=request.user,currency_from=currency_from,currency_to=currency_to,forex_amount=forex_amount,inr_amount=inr_amount,total_amount=total_amount,Commission_amount=Commission_amount,forex_rate=forex_rate)
+        currency.save()
+        return redirect('exapp:confirmorder')
         
     else:
         return render(request,'exapp/buy.html')
 
 
 
+
+# conifrm order 
+
+def confirm_order(request):
+    # current_user = get_object_or_404(User, username=str(request.user))
+    order= CreateOrder.objects.filter(id=12)
+
+    # if  inr_amount >= 10000 and  ( inr_amount % 500 ):
+    #     currency=CurrencyOrder.objects.create(user=request.user,currency_from=currency_from,currency_to=currency_to,forex_amount=forex_amount,inr_amount=inr_amount,total_amount=total_amount,Commission_amount=Commission_amount,forex_rate=forex_rate)
+    #     currency.save()
+    #     return redirect('exapp:kyc')
+    # else:
+    #     messages.error(request,'INR Amount must be greater than 10,000 INR and multiples of 500 ....!')
+    #     return redirect('exapp:buy')
+    return render(request,'exapp/confirmorder.html',{'order':order})
 
     
 # kyc section #
@@ -197,23 +238,23 @@ def kyc_add(request):
         aadhar = request.FILES['aadhar']
 
         if kyc.objects.filter(aadhar=aadhar).exists():
-            messages.error(request,'* Warning: aadhar Already Exists')
+            messages.error(request,' Aadhar Already Exists')
             return redirect(request,'exapp:kyc')
         elif kyc.objects.filter(pancard=pancard).exists():
-            messages.error(request,'* Warning: Pancard Already Exists')
+            messages.error(request,' Pancard Already Exists')
             return redirect(request,'exapp:kyc')
 
         elif request.FILES['aadhar'] is None:
-            messages.error(request,'*Warning: Attach Your Aadhar')
+            messages.error(request,' Attach Your Aadhar')
             return redirect(request,'exapp:kyc')
 
         elif request.FILES['pancard'] is None:
-            messages.error(request,'*Warning: Attach Your Pancard')
+            messages.error(request,' Attach Your Pancard')
             return redirect(request,'exapp:kyc')
 
         else:
             doc1 = kyc.objects.create(user=request.user,aadhar=aadhar,pancard=pancard)
-            messages.info(request,"*Document Uploaded  Sucessfully")
+            messages.info(request,"Document Uploaded  Sucessfully")
             return redirect('exapp:kyc')
     
         return redirect('exapp:kyc')

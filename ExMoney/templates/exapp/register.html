@@ -47,33 +47,54 @@
         <div class="col-xl-8 offset-md-34">
           <div class="card">
             <div class="card-header shawdow-ms bg-light">
-              <h2 style="color: black;"> REGISTRATION </h2><br>
+              <h2 style="color: black; font-weight: bold;"> REGISTRATION </h2><br>
           <form method="POST" action="{% url 'exapp:register' %}" style="text-align: center;">
                {% csrf_token %}
-               <!-- <lablel for ="fname">First Name</lablel><br> -->
-               <input type="text" name='fname'placeholder="Enter Your First Name * " required style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br><br>
-               <!-- {{form.first_name}} -->
-              <input type="text" name='lname'placeholder="Enter Your Last Name * " required   style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br><br>
-              <!-- {{form.last_name}} -->
-              <input type="text" name='username'placeholder="Enter Your  username * " required style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br><br>
-              <!-- {{form.username}} -->
-              <input type="email" name='email' placeholder="Enter Email * " required  style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br><br>
-              <!-- {{form.password1}} -->
-              <input type="password" name='pass1' placeholder="Enter password * " required  style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br><br>
-              <!-- {{form.password2}} -->
-              <input type="password" name='pass2' placeholder="Confirm password * " required  style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br><br>
-              {% for message in messages %}
+               <div class="form-group">
+          
+                    
+                      <div>
+                        <label style="text-align: start; color: black; font-weight: bold;">First Name *</label>
+                        <input style="width: 50%; text-align: center;  margin-left: 25%;"required type="text" class="form-control" name="fname" placeholder="Enter First Name" >
+                      </div>
+                      <div>
+                        <label style="text-align: start; color: black; font-weight: bold;">Last Name *</label>
+                        <input  style="width: 50%; text-align: center;  margin-left: 25%;" required type="text" class="form-control" name="lname" placeholder="Enter Last Name">
+                      </div>
+              
+                <div class="form-group">
+                      <label style="text-align: start; color: black; font-weight: bold;">Username *</label>
+                      <input style="width: 50%; text-align: center;  margin-left: 25%;" required class="form-control"  id ='username' type="username" name="username" placeholder="Enter Username" >
+              <div>
+                
+                <label style="text-align: start; color: black; font-weight: bold;">Email *</label>
+                <input style="width: 50%; text-align: center;  margin-left: 25%;"  required   class="form-control"  id = 'email' type="email" name="email" placeholder="Enter email">
+            </div>
+              <div>
+                
+                  <label style="text-align: start; color: black; font-weight: bold;">Password *</label>
+                  <input style="width: 50%; text-align: center;  margin-left: 25%;"  required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title=" Alphanumeric data "  class="form-control"  id = 'pass1' type="password" name='pass1' placeholder="Enter Password" >
+              </div>
+              
+                <label style="text-align: start; color: black; font-weight: bold;"> Confirm Password *</label>
+                <input style="width: 50%; text-align: center;  margin-left: 25%;" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title=" Alphanumeric data " class="form-control"  id = 'pass2' type="password" name='pass2' placeholder="Confirm Password"  >
+            </div>
+            
+
+              
+               {% for message in messages %}
               <p style="color:red"> {{message}} </p>
               {% endfor %}
     
+            
+          </div>
+          <button type="submit" name="register" class="get-started-btn scrollto" style="border-bottom-style: groove;border-top-style: none; border-left-style: none; border-right-style: hidden;background-color:rgb(25, 219, 161);font-weight: bold; color: black;">Register</button><br><br>
+        </form>
 
-              <button type="submit" name='register' class="get-started-btn scrollto" style="border-bottom-style: groove;color: black; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color:rgb(25, 219, 161);; font-family: Georgia, 'Times New Roman', Times, serif;">Register</button><br><br> 
-          </form>
-          
              
               
-              <a href="{% url 'exapp:login' %}"  class="get-started-btn scrollto" style="border-bottom-style: groove;color: black; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color:rgb(25, 219, 161);; font-family: Georgia, 'Times New Roman', Times, serif;"><u>Already Have a account</u></a>
-          
+              <a href="{% url 'exapp:login' %}"  class="get-started-btn scrollto" style="border-bottom-style: groove;border-top-style: none; border-left-style: none; border-right-style: hidden;background-color:rgb(25, 219, 161);font-weight: bold; color: black;"><u>Already Have a account</u></a>
+
             </div>
           </div>
         </div>

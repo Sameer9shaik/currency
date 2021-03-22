@@ -54,6 +54,7 @@
               <li class="drop-down"><a href="" style="color: #00b371;"> {{user.first_name}} {{user.last_name}} </a>
                 <ul>
                   <li><a href="{% url 'exapp:profile'  %}"> My profile</a></li>
+                  <li><a href="{% url 'exapp:pay' %}">Pay </a></li>
                   <li><a href="{% url 'exapp:logout' %}">Logout</a></li>
                 </ul>
               </li>
@@ -90,39 +91,53 @@
           <div class="col-xl-8 offset-md-34">
             <div class="card">
               <div class="card-header shawdow-ms bg-light">
-                <h2 style="color:#00b371; text-align: center;"> BUY CURRENCY  </h2><br>
+                <h2 style="color:#00b371; text-align: center; font-weight: bold;"> BUY CURRENCY  </h2><br>
                   <form method ="POST" action="{% url 'exapp:buy' %}"> 
                         {%csrf_token %}
-                        <div style="text-align: center;">
-                          Currency : <select id="currency_from" name="currency_from">
-                            <option value="USD">US Dollar (USD) </option>
-                            <option value="euro">European  (euro)</option>
-                            <option value="Dirham" >United Amirates (Dirham)</option>
-                            <option value="Yuan">Chinese (Yuan)</option>
-                            <option value="pkr">Pakistani Rupee (pkr)</option>
+                        <div style="text-align: start;">
+
+                        
+                          Currency :  <select id="currency_from" name="currency_from">
+                                        <option value="select"> Select Currency From </option>
+                                        <option value="USD">US Dollar (USD) </option>
+                                        <option value="euro">European  (euro)</option>
+                                        <option value="Dirham" >United Amirates (Dirham)</option>
+                                        <option value="Yuan">Chinese (Yuan)</option>
+                                        <option value="pkr">Pakistani Rupee (pkr)</option>
+                                      </select>
                     
-                          </select>
-                           To <select id="currency_to" name="currency_to">
-                            <option value="INR" selected> Indian Rupee (INR)</option>
-                          </select><br><br>
+                           To : 
+                                    <select id="currency_to" name="currency_to">
+                                      <option value="select" > Select Currency From </option>
+                                      <option value="INR"> Indian Rupee (INR)</option>
+                                    </select><br><br>
+
+
+                          <!-- <a href="" style="color: blue;text-align: left">Add Currency</a><br> -->
+
+
+
                           Forex Amount : <input id= 'forex_amount' name="forex_amount" value="{{forex_amount}}" type="number"><br><br>
-                          Inr Amount : <input id= 'inr_amount' name="inr_amount" value="{{inr_amount}}" type="number"><br><br> 
+                          <!-- Inr Amount : <input id= 'inr_amount' name="inr_amount" value="{{inr_amount}}" type="number"><br><br>  -->
+
+
+
                            {% for message in messages %}
-                          <p style="color:red"> {{message}} </p>
+                          <p style="color:red; text-align: center;"> {{message}} </p>
                           {% endfor %} 
                         </div>
 
 
                         <div style="text-align: center;">
-                        <button type="submit" class="get-started-btn scrollto" style="justify-content: center;text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; color: black;border-right-style: hidden; background-color:rgb(25, 219, 161); font-family: Georgia, 'Times New Roman', Times, serif;"> Place the Order </button>
+                        <button type="submit" class="get-started-btn scrollto" style="justify-content: center;text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; width:50%;color: black;border-right-style: hidden; background-color:rgb(25, 219, 161);font-weight: bold;"> Caluculate Inr Amount</button>
                         </div>
-                        <div style="color:rgb(16, 190, 94)">
+                        <!-- <div style="color:black">
                           <p> Neccessary  :  </p>
                           <p> 1.Selected desired Currency </p>
                           <p> 2.Enter your Desired Forex Value  </p>
                           <p> 3.Click On place order </p>
 
-                        </div>
+                        </div> -->
                   </form>
               </div>
             </div>

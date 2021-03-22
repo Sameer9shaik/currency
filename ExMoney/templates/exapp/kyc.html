@@ -56,6 +56,7 @@
                 <ul>
                   <li><a href="{% url 'exapp:profile' %}"> My profile</a></li>
                   <li><a href="{% url 'exapp:buy' %}">Buy Currency </a></li>
+                  <li><a href="{% url 'exapp:pay' %}">Pay </a></li>
                   <li><a href="{% url 'exapp:index' %}">Logout</a></li>
                 </ul>
               </li>
@@ -102,19 +103,19 @@
           
               {% for i in kycs %}
                 {% if i.status == True %}
-                      <div class="card-header shawdow-ms bg-light">
-                            <h2 style="color: black;"> KYC DOCUMENTS </h2>
+                      <div class="card-header shawdow-ms bg-light" style="text-align: center;">
+                            <h2 style="color: black;text-align: center;"> KYC DOCUMENTS </h2>
                             Pancard : <img src="{{ i.pancard }}" alt="pancard pic" width="300" height="150" /><hr><br>
                             Aadhar :  <img src = "{{ i.aadhar }}" alt="aadhar pic " width="300" height="150"/><hr><br>
-                            <p style="color: black;">KYC Status : approved</p>
+                            <p style="color: red;">KYC Status : APPROVED</p><hr>
                       </div>
                 {% elif i.status == False %}
                       <div class="card-header shawdow-ms bg-light">
                           <h2 style="color: black;"> KYC DOCUMENTS </h2>
                           Pancard : <img src="{{ i.pancard }}" alt="pancard pic" width="300" height="150" /><hr><br>
                           Aadhar :  <img src = "{{ i.aadhar }}" alt="aadhar pic " width="300" height="150"/><hr><br>
-                          <p style="color: black;">KYC Status : Pending</p>
-                          <p style="color: red"> Sit and Relax,Your documents will be approved  by Processed Manager within 72 hrs </p>
+                          <p style="color: red">KYC Status : PENDING </p><hr>
+                          <p style="color: red"> Your Documents are being  processed by our Manager ....!</p>
                       </div>
                 {% endif %}
               {% endfor %}

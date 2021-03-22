@@ -16,8 +16,10 @@ urlpatterns = [
 
     path('home/',home, name='home'),
     path('profile/',profile, name='profile'),
+    path('editprofile/',edit_profile,name='editprofile'),
 
     path('orders/',orders, name='orders'),
+    path('confirmorder/',confirm_order,name='confirmorder'),
     path('kyc/',kyc_add, name='kyc'),
     path('transcations/',transcation,name='transcations'),
     path('account/',account, name='account'),

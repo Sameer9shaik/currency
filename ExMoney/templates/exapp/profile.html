@@ -55,6 +55,7 @@
                 <li class="drop-down"><a href="" style="color: #00b371;"> {{user.first_name}} {{user.last_name}} </a>
                   <ul>
                     <li><a href="{% url 'exapp:buy' %}"> Buy Currency</a></li>
+                    <li><a href="{% url 'exapp:pay' %}">Pay </a></li>
                     <li><a href="{% url 'exapp:logout' %}">Logout</a></li>
                     {% else %}
                     <h1 class="logo"><a href="{% url 'exapp:index' %}">ExMoney</a></h1>
@@ -65,14 +66,7 @@
                         <li class="active"><a href="{% url 'exapp:index' %}">Home</a></li>
                         <li><a href="{% url 'exapp:index' %}">About</a></li>
                         <li><a href="{% url 'exapp:index' %}">Services</a></li>
-                        <!-- <li class="drop-down"><a href="">Currency Converter</a>
-                          <ul>
-                            <li><a href="{% url 'exapp:usd' %}">INR to USD</a></li>
-                            <li><a href="{% url 'exapp:euro' %}">INR to Euro</a></li>
-                            <li><a href="{% url 'exapp:dirham' %}">INR to Dirham</a></li>
-                            <li><a href="{% url 'exapp:yuan' %}">INR to Yuan</a></li>
-                            <li><a href="{% url 'exapp:pkr' %}">INR to Pakistani Rupee</a></li>
-                          </ul> -->
+                        
                         </li>
                       </ul>
                     </nav><!-- .nav-menu -->
@@ -102,26 +96,18 @@
           <div class="col-xl-8 offset-md-34">
             <div class="card">
               <div class="card-header shawdow-ms bg-light">
-                <h3 style="color: #00b371;;text-align: center;"> PROFILE </h3><br>
-                <p style="text-align: end;color: black;"> Hello {{user.first_name}} {{user.last_name}}</p><hr>
+                <h3 style="color: #00b371;;text-align: center; font-weight: bold;"> PROFILE </h3><br>
+                <p style="text-align: end;color: black; font-weight: bold;"> Hello {{user.first_name}} {{user.last_name}}</p><hr>
                 <div style="text-align:start;">
-                <a href="{% url 'exapp:account' %}" style="color: blue;">Account information</a><br><hr>
-                <a href="{% url 'exapp:orders' %}" style="color: blue;">My Transcations</a><br><hr>
-                <a href="{% url 'exapp:kyc' %}" style="color: blue;">Kyc</a><br><hr>
-                <a href="{% url 'exapp:logout' %}" style="color: blue;">Logout</a><br><hr>
+                <a href="{% url 'exapp:account' %}" style="color: #00b371; font-weight: bold;">View Profile </a><br><hr>
+                
+                <a href="{% url 'exapp:orders' %}" style="color: #00b371;font-weight: bold;">My Transcations</a><br><hr>
+                <a href="{% url 'exapp:kyc' %}" style="color: #00b371;font-weight: bold;">Kyc</a><br><hr>
+                <a href="{% url 'exapp:logout' %}" style="color: #00b371;font-weight: bold;">Logout</a><br><hr>
               </div>
             
 
-                  <!-- <form method="POST" action="{% url 'exapp:profile'%}" style="text-align:center;">
-                    {% csrf_token %}
-                        <div style="text-align: left;">
-                       Full  Name : &nbsp&nbsp&nbsp&nbsp&nbsp{{ user.first_name }} {{ user.last_name }}<br><hr>
-                       First Name : &nbsp&nbsp&nbsp&nbsp&nbsp{{ user.first_name }}  &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
-                       Last Name : &nbsp&nbsp&nbsp&nbsp&nbsp{{ user.last_name }}  &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
-                       Username : &nbsp&nbsp&nbsp&nbsp&nbsp{{ user.username }}  &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
-                       Email : &nbsp&nbsp&nbsp&nbsp&nbsp{{user.email}} &nbsp&nbsp&nbsp&nbsp&nbsp<br><hr>
-                      </div>
-                  </form> -->
+                 
               </div>
             </div>
           </div>

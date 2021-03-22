@@ -4,10 +4,10 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import CurrencyOrder, Currency,kyc
 
 
-# class CreateUserForm(UserCreationForm):
-#     class Meta:
-#         model = User
-#         fields = ['username','fname','lname','email','pass1']
+class CreateUserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username','email','first_name','last_name','password1','password2']
 
 
 class CreateCurrencyOrderForm(forms.ModelForm):

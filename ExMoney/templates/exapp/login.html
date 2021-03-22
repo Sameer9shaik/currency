@@ -48,21 +48,27 @@
         <div class="col-xl-8 offset-md-34">
           <div class="card">
             <div class="card-header shawdow-ms bg-light">
-              <h2 style="color: black;"> LOGIN </h2>
+              <h2 style="color: black; font-weight: bold;"> LOGIN </h2>
           <form method="POST" action="http://localhost:8000/exapp/login/">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                <input id ='username' type="username" name ='username' placeholder="Username*" required style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br>
+
+            <div class="form-group" style="text-align: center;">
+                  
+                  <div>
+                      <label style="text-align: start; color: black; font-weight: bold;">Username *</label>
+                      <input style="width: 50%; text-align: center; margin-left: 25%;" type="text" class="form-control"  id ='username' type="username" name="username" placeholder="Username" >
+                  </div>
+                  <div>
+                      <label style="text-align: start; color: black; font-weight: bold;">Password *</label>
+                      <input style="width: 50%; text-align: center; margin-left: 25%;"  class="form-control"  id = 'pwd' type="password" name="pwd" placeholder="Password" >
+                  </div>
             </div>
-                
-            
-                <input  id = 'pwd' type="password" name='pwd'placeholder="Password*" required  style="border-bottom-style: groove; border-top-style: none; border-left-style: none; border-right-style: hidden; background-color: white; font-family: Georgia, 'Times New Roman', Times, serif; width: 50%;"><br><br>
+           
                 {% for message in messages %}
                 <p style="color:red"> {{message}} </p>
                 {% endfor %}
-                <button type="submit" class="get-started-btn scrollto" style="border-bottom-style: groove;border-top-style: none; border-left-style: none; border-right-style: hidden;background-color:rgb(25, 219, 161); font-family: Georgia, 'Times New Roman', Times, serif; color: black;">Login</button><br><br>
-                <a href="http://localhost:8000/exapp/register/" class="get-started-btn scrollto" style="border-bottom-style: groove;border-top-style: none; border-left-style: none; border-right-style: hidden;background-color:rgb(25, 219, 161); font-family: Georgia, 'Times New Roman', Times, serif; color: black;"><u>Create an account</u></a>
+                <button type="submit" class="get-started-btn scrollto" style="border-bottom-style: groove;border-top-style: none; border-left-style: none; border-right-style: hidden;background-color:rgb(25, 219, 161); font-weight: bold; color: black;">Login</button><br><br>
+                <a href="{% url 'exapp:register' %} " class="get-started-btn scrollto" style="border-bottom-style: groove;border-top-style: none; border-left-style: none; border-right-style: hidden;background-color:rgb(25, 219, 161);font-weight: bold; color: black;"><u>Create an account</u></a>
               
           </form>
          

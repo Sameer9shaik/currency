@@ -57,8 +57,7 @@
                 <ul>
                   <li><a href="{% url 'exapp:profile' %}"> My profile</a></li>
                   <li><a href="{% url 'exapp:buy' %}"> Buy Currency</a></li>
-                  <li><a href="{% url 'exapp:orders' %}">Orders </a></li>
-                  <li><a href="{% url 'exapp:transcations' %}">Transcations </a></li>
+                 
                   <li><a href="{% url 'exapp:index' %}">Kyc </a></li>
                   <li><a href="{% url 'exapp:index' %}">Logout</a></li>
                 </ul>
@@ -104,13 +103,12 @@
             <div class="col-xl-8 offset-md-34" >
               <div class="card">
                 <div class="card-header shawdow-ms bg-light">
-<h2 style="color: #00b371;"> PAYMENT </h2><br>
+<h2 style="color: #00b371; font-weight: bold;"> PAYMENT </h2><br>
     <label for="pay_mode">Mode of Payment : </label>
     <select name="pay_mode">
-    <option value="cash">cash </option>
     <option value="online">online </option>
     </select><br><br> 
-    <!-- <button type="submit"  class="get-started-btn scrollto" style="justify-content: center;text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; color: black;border-right-style: hidden; background-color:rgb(25, 219, 161); font-family: Georgia, 'Times New Roman', Times, serif;"> Pay </button> -->
+    <!-- <button type="submit"  class="get-started-btn scrollto" style="justify-content: center;text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; color: black;border-right-style: hidden; background-color:rgb(25, 219, 161);font-weight: bold;"> Pay </button> -->
 
 <form action="{% url 'exapp:success' %}" method="POST">
   <script    src="https://checkout.razorpay.com/v1/checkout.js" 
