@@ -94,22 +94,26 @@
               <div class="card-header shawdow-ms bg-light">
                 <h2 style="color:#00b371; text-align: center;"> PRICE DETAILS  </h2><br>
               <div style="text-align: center;">
-                <form action="" method="POST">
+
+                <form action="{% url 'exapp:confirmorder' %}" method="POST">
                   {% csrf_token%}
-                  
-                    currency_from : <input type="text" name="currency_from"  value="{{order.currency_from}}"><br><br>
-                    currency_to : <input type="text" name="currency_to"  value="{{order.currency_to}}"><br><br>
-                    Forex Rate : <input type="number" name="forex_rate"  value="{{order.forex_rate}}"><br><br>
-                    Forex Amount : <input type="number" name="forex_amount"  value="{{order.forex_amount}}"><br><br>
-                    Commission : <input type="number" name="Commission_amount"  value="{{order.Commission_amount}}"><br><br>
-                    Total Amount(to be paid in INR)  : <input type="number" name="inr_amount"  value="{{order.inr_amount}}"><br><br>
+                  <div style="text-align: start;">
+                    <b>Currency : </b> <input type="text" name="currency_from" class="form-control" style="width: 50%; color: black;margin-left: 25%;" value="{{order.currency_from}} to {{order.currency_to}}"><br>
+                    <b>Forex Rate :</b> <input type="number" name="forex_rate" class="form-control" style="width: 50%; color: black;margin-left: 25%;" value="{{order.forex_rate}}"><br>
+                    <b>Forex Amount :</b> <input type="number" name="forex_amount"class="form-control" style="width: 50%; color: black;margin-left: 25%;"  value="{{order.forex_amount}}"><br>
+                    <b>Commission :</b> <input type="number" name="Commission_amount" class="form-control" style="width: 50%; color: black;margin-left: 25%;" value="{{order.Commission_amount}}"><br>
+                    <b>Total Amount(to be paid in INR)  :</b> <input type="number" class="form-control" style="width: 50%; color: black;margin-left: 25%;" name="inr_amount"  value="{{order.inr_amount}}"><br>
+                  </div>
+                    <div style="text-align: center;">
+                      <div style="text-align: center;">
+                        <button type="submit" class="get-started-btn scrollto" style="justify-content: center;text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; width:50%;color: black;border-right-style: hidden; background-color:rgb(25, 219, 161);font-weight: bold;"> Confirm Order</button>
+                        </div>
+                    </div>
 
                   </form>
 
               </div>
-                <div style="text-align: center;">
-                  <a href="{% url 'exapp:kyc' %}" class="get-started-btn scrollto" style="justify-content: center;text-align: center;width:50%; border-bottom-style: groove; border-top-style: none; border-left-style: none; color: black;border-right-style: hidden; background-color:rgb(25, 219, 161); font-family: Georgia, 'Times New Roman', Times, serif;">Confirm Order</a>
-                </div>
+                
 
               </div>
             </div>

@@ -26,6 +26,7 @@ def register(request):
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
 
+
         if pass1 == pass2:
 
             if User.objects.filter(username=username).exists():
@@ -36,7 +37,18 @@ def register(request):
                 messages.info(request,"Email ID Already in Use....!")
                 return redirect('exapp:register')
 
+                if username == any(c.islower() for c in username):
+                    messages.info(request,"Atleast 1 Lower Character should use.....!")
+                if username == any(c.isupper() for c in username):
+                    messages.info(request,"Atleast 1 Upper Character should use.....!")
+                if username == any(c.isupper() for c in username):
+                    messages.info(request,"Atleast 1 Upper Character should use.....!")
+                if username == any(c.isdigit() for c in username):
+                    messages.info(request,"Atleast 1 Digit  should use.....!")
+                if len(username) is not 6:
+                    messages.info(request,'Min 6 characters should use ....!')
             else:
+
                 user = User.objects.create_user(username=username, password=pass1, email=email, first_name=first_name, last_name=last_name)
                 user.save()
                 messages.info(request,"User Registered Sucessfully....!")
@@ -91,44 +103,25 @@ def profile(request):
 
 #edit profile # 
 def edit_profile(request):
-    context = {}
-    check = Profile.objects.filter(user__id=request.user.id)
-    if len(check)>0:
-        data = Profile.objects.get(user__id=request.user.id)
-        context["data"]=data
+    current_user = get_object_or_404(User, username=str(request.user))
+    user = User.objects.filter(user=current_user)
+    data = Profile.objects.filter(user=current_user)
+    if request.method == "POST":
+        first_name=request.POST['fname']
+        last_name=request.POST['lname']
+        email=request.POST['email']
+        contact=request.POST['contact']
+        age=request.POST['age']
+        city=request.POST['city']
+        gender=request.POST['gender']
+        user=User.objects.create(first_name=first_name,last_name=last_name,email=email)
+        user.save()
+        data =Profile.objects.create(contact_number=contact,age=age,city=city,gender=gender)
+        data.save()
 
-        if request.method=="POST":
-            fn = request.POST["fname"]
-            ln = request.POST["lname"]
-            em = request.POST["email"]
-            con = request.POST["contact"]
-            age = request.POST["age"]
-            ct = request.POST["city"]
-            gen = request.POST["gender"]
-
-            usr = User.objects.get(id=request.user.id)
-            usr.first_name = fn
-            usr.last_name = ln
-            usr.email = em
-            usr.save()
-
-            data.contact_number = con
-            data.age = age
-            data.city = ct
-            data.gender = gen
-            data.occupation = occ
-            data.about = abt
-            data.save()
-        
-        context["status"] = "Changes Saved Successfully"
-    return render(request,"exapp/editprofile.html",context)
-
-        
-
-    
-
-
-
+        return render(request,"exapp/editprofile.html",{'user':user, 'data':data})
+    else:
+        return render(request,"exapp/editprofile.html", {'user':user, 'data':data})
 
 
 # acconnt information  section #
@@ -158,6 +151,9 @@ def buy(request):
         currency_to = request.POST['currency_to']
         forex_amount = request.POST['forex_amount']
 
+        if currency_from=='select' and currency_to == 'select':
+            messages.error(request,'Select Desired Currency')
+            return redirect('exapp:buy')
 
         if currency_from == 'USD':
             res = requests.get("https://free.currconv.com/api/v7/convert?q=USD_INR&compact=ultra&apiKey=8ae59ce2eb49edbce982")
@@ -203,6 +199,7 @@ def buy(request):
 
         currency = CreateOrder.objects.create(user=request.user,currency_from=currency_from,currency_to=currency_to,forex_amount=forex_amount,inr_amount=inr_amount,total_amount=total_amount,Commission_amount=Commission_amount,forex_rate=forex_rate)
         currency.save()
+        # return render(request,'exapp/confirmorder.html')
         return redirect('exapp:confirmorder')
         
     else:
@@ -214,18 +211,22 @@ def buy(request):
 # conifrm order 
 
 def confirm_order(request):
-    # current_user = get_object_or_404(User, username=str(request.user))
-    order= CreateOrder.objects.filter(id=12)
+    current_user = get_object_or_404(User, username=str(request.user))
+    order = CreateOrder.objects.filter(user=current_user).order_by("-id")[0]
 
-    # if  inr_amount >= 10000 and  ( inr_amount % 500 ):
-    #     currency=CurrencyOrder.objects.create(user=request.user,currency_from=currency_from,currency_to=currency_to,forex_amount=forex_amount,inr_amount=inr_amount,total_amount=total_amount,Commission_amount=Commission_amount,forex_rate=forex_rate)
-    #     currency.save()
-    #     return redirect('exapp:kyc')
-    # else:
-    #     messages.error(request,'INR Amount must be greater than 10,000 INR and multiples of 500 ....!')
-    #     return redirect('exapp:buy')
-    return render(request,'exapp/confirmorder.html',{'order':order})
+    if request.method == "POST":
+        if  order.inr_amount > 10000 and  ( order.inr_amount % 500 ):
+            currency=CurrencyOrder.objects.create(user=current_user,currency_from=order.currency_from,currency_to=order.currency_to,forex_amount=order.forex_amount,inr_amount=order.inr_amount,total_amount=order.total_amount,Commission_amount=order.    Commission_amount,forex_rate=order.forex_rate)
+            currency.save()
+            return redirect('exapp:pay')
+        else:
+            messages.error(request,'INR Amount must be greater than 10,000 INR and multiples of 500 ....!')
+            return redirect('exapp:buy')
+    else:
+        return render(request,'exapp/confirmorder.html',{'order':order,'current_user':current_user})
 
+
+    
     
 # kyc section #
 
@@ -269,18 +270,33 @@ def kyc_add(request):
 
 # payment section #
 
+
+# def payment_process(request):
+#     order_id = request.session.get('order_id')
+#     order = get_object_or_404(order,id=order_id)
+#     host=request.get.host()
+
+#     paypal_dict={
+#         'bussiness' : settings.PAYPAL_RECEIVER_EMAIL,
+#         'amount': '%2f' % order.get_inr_amount
+#         iten_name
+#     }
+
 def pay(request):
+    current_user = get_object_or_404(User, username=str(request.user))
+    order=CurrencyOrder.objects.filter(user=current_user).order_by("-id")[0]
     if request.method == 'POST':
-        order_amount = 50000
+        order_amount ='{{ order.inr_amount}}'
         order_currency = 'INR'
         client = razorpay.Client(auth=('rzp_test_KqegTBbnvoPiap','BzvLi7pjKrx8TGpWz3R6F6nm'))
         payment = client.order.create({'amount':amount,'currency': 'INR', 'payment_capture':'1'})
-    return render(request,'exapp/pay.html')
+    return render(request,'exapp/pay.html',{'current_user':current_user,'order':order})
 
 
 # sucess page after payment #
 @csrf_exempt
 def success(request):
+    
     return render(request,'exapp/success.html')
 
 

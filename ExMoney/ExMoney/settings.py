@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'exapp',
+    # 'paypal.standard.ipn',
     
 ]
 
@@ -135,3 +136,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+#django-paypal settings 
+# PAYPAL_RECEIVER_EMAIL = ''
+# PAPAL_TEST = 'True'

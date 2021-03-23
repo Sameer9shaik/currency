@@ -47,7 +47,7 @@
         <div class="col-xl-8 offset-md-34">
           <div class="card">
             <div class="card-header shawdow-ms bg-light">
-              <h2 style="color: black; font-weight: bold;"> REGISTRATION </h2><br>
+              <h2 style="color: #00b371; font-weight: bold;"> REGISTRATION </h2><br>
           <form method="POST" action="{% url 'exapp:register' %}" style="text-align: center;">
                {% csrf_token %}
                <div class="form-group">
@@ -73,11 +73,11 @@
               <div>
                 
                   <label style="text-align: start; color: black; font-weight: bold;">Password *</label>
-                  <input style="width: 50%; text-align: center;  margin-left: 25%;"  required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title=" Alphanumeric data "  class="form-control"  id = 'pass1' type="password" name='pass1' placeholder="Enter Password" >
+                  <input style="width: 50%; text-align: center;  margin-left: 25%;"  required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Min 8 characters atleast 1 num or symbol (!@#$%^) "  class="form-control"  id = 'pass1' type="password" name='pass1' placeholder=" Min 8 characters atleast 1 num or symbol (!@#$%^)" >
               </div>
               
                 <label style="text-align: start; color: black; font-weight: bold;"> Confirm Password *</label>
-                <input style="width: 50%; text-align: center;  margin-left: 25%;" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title=" Alphanumeric data " class="form-control"  id = 'pass2' type="password" name='pass2' placeholder="Confirm Password"  >
+                <input style="width: 50%; text-align: center;  margin-left: 25%;" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title=" Min 8 characters atleast 1 num or symbol (!@#$%^) " class="form-control"  id = 'pass2' type="password" name='pass2' placeholder="same as above Password"  >
             </div>
             
 

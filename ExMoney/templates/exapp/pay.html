@@ -58,7 +58,7 @@
                   <li><a href="{% url 'exapp:profile' %}"> My profile</a></li>
                   <li><a href="{% url 'exapp:buy' %}"> Buy Currency</a></li>
                  
-                  <li><a href="{% url 'exapp:index' %}">Kyc </a></li>
+                  <li><a href="{% url 'exapp:kyc' %}">Kyc </a></li>
                   <li><a href="{% url 'exapp:index' %}">Logout</a></li>
                 </ul>
               </li>
@@ -103,17 +103,56 @@
             <div class="col-xl-8 offset-md-34" >
               <div class="card">
                 <div class="card-header shawdow-ms bg-light">
-<h2 style="color: #00b371; font-weight: bold;"> PAYMENT </h2><br>
+                  <title> PayPal Smart Payment Buttons Integration | Client Demo </title>
+</head>
+
+<body>
+    <!-- Set up a container element for the button -->
+    <div id="paypal-button-container"></div>
+
+    <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AYkjc15WWgWPbABkNjDk2--1FLf5trZjk6linG-aC5_yg43hjoVMKboCaN7KvGEaTzAykqkVVah2DVBj&currency=INR"></script>
+
+    <script>
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '{{order.inr_amount}}'
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                });
+            }
+
+
+        }).render('#paypal-button-container');
+    </script>
+</body>
+
+
+<!-- <h2 style="color: #00b371; font-weight: bold;"> PAYMENT </h2><br>
     <label for="pay_mode">Mode of Payment : </label>
     <select name="pay_mode">
     <option value="online">online </option>
     </select><br><br> 
     <!-- <button type="submit"  class="get-started-btn scrollto" style="justify-content: center;text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; color: black;border-right-style: hidden; background-color:rgb(25, 219, 161);font-weight: bold;"> Pay </button> -->
 
-<form action="{% url 'exapp:success' %}" method="POST">
+<!-- <form action="{% url 'exapp:success' %}" method="POST">
   <script    src="https://checkout.razorpay.com/v1/checkout.js" 
     data-key = "rzp_test_KqegTBbnvoPiap"     
-    data-amount="5000000"   
+    data-amount= '100000'
     data-currency="INR"
     data-order_id="{{payment.id}}"
     data-buttontext = 'Pay'
@@ -130,7 +169,7 @@
 </div>
 </div>
 </div>
-</section><!-- End Hero -->
+</section>End Hero -->
 {% else %}
 
 <section id="hero" class="d-flex flex-column justify-content-center">
@@ -142,7 +181,7 @@
       </div>
     </div>
   </div>
-</section><!-- End Hero -->
+</section>
 
 <main id="main">
 

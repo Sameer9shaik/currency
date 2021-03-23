@@ -25,6 +25,7 @@ urlpatterns = [
     path('account/',account, name='account'),
     path('buy/',buy, name='buy'),
 
+    # path('paypal/',payment_process,name='payment')
     path('pay/',pay, name='pay'),
     path('success/',success, name='success'),
 

@@ -36,7 +36,6 @@ class CurrencyOrder(models.Model):
                                   ('INR', 'Indian (Rupee)'),
                                   )
     currency_to                 = models.CharField(max_length=3, default='-', choices=to_choices)
-    
     forex_amount                = models.DecimalField(max_digits=15,decimal_places=2,null=True)
     inr_amount                  = models.DecimalField(max_digits=15, decimal_places=2,null=True)
     total_amount                = models.DecimalField(max_digits=15,decimal_places=2,null=True)

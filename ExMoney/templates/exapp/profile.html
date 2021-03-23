@@ -55,7 +55,6 @@
                 <li class="drop-down"><a href="" style="color: #00b371;"> {{user.first_name}} {{user.last_name}} </a>
                   <ul>
                     <li><a href="{% url 'exapp:buy' %}"> Buy Currency</a></li>
-                    <li><a href="{% url 'exapp:pay' %}">Pay </a></li>
                     <li><a href="{% url 'exapp:logout' %}">Logout</a></li>
                     {% else %}
                     <h1 class="logo"><a href="{% url 'exapp:index' %}">ExMoney</a></h1>

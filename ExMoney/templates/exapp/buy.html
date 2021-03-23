@@ -54,7 +54,6 @@
               <li class="drop-down"><a href="" style="color: #00b371;"> {{user.first_name}} {{user.last_name}} </a>
                 <ul>
                   <li><a href="{% url 'exapp:profile'  %}"> My profile</a></li>
-                  <li><a href="{% url 'exapp:pay' %}">Pay </a></li>
                   <li><a href="{% url 'exapp:logout' %}">Logout</a></li>
                 </ul>
               </li>
@@ -92,34 +91,62 @@
             <div class="card">
               <div class="card-header shawdow-ms bg-light">
                 <h2 style="color:#00b371; text-align: center; font-weight: bold;"> BUY CURRENCY  </h2><br>
+                
                   <form method ="POST" action="{% url 'exapp:buy' %}"> 
                         {%csrf_token %}
-                        <div style="text-align: start;">
-
-                        
-                          Currency :  <select id="currency_from" name="currency_from">
-                                        <option value="select"> Select Currency From </option>
-                                        <option value="USD">US Dollar (USD) </option>
-                                        <option value="euro">European  (euro)</option>
-                                        <option value="Dirham" >United Amirates (Dirham)</option>
-                                        <option value="Yuan">Chinese (Yuan)</option>
-                                        <option value="pkr">Pakistani Rupee (pkr)</option>
-                                      </select>
-                    
-                           To : 
-                                    <select id="currency_to" name="currency_to">
-                                      <option value="select" > Select Currency From </option>
+                        <div class="row">
+                          <div class="col">
+                            <b>Currency :</b>  <select id="currency_from" name="currency_from"class="form-control" style="width: 100%; color: black;margin-left: 25%;">
+                              <option value="select"> Select Currency From </option>
+                              <option value="USD">US Dollar (USD) </option>
+                              <option value="euro">European  (euro)</option>
+                              <option value="Dirham" >United Amirates (Dirham)</option>
+                              <option value="Yuan">Chinese (Yuan)</option>
+                              <option value="pkr">Pakistani Rupee (pkr)</option>
+                              </select>
+                          </div>
+                          <div class="col">
+                            <b>To :</b>
+                                    <select id="currency_to" name="currency_to"class="form-control" style="width: 100%; color: black;margin-left: 25%;">
+                                      <option value="select" > Select Currency To </option>
                                       <option value="INR"> Indian Rupee (INR)</option>
-                                    </select><br><br>
+                                    </select><br>
+                          </div>
+                          <div class="col">
+                            <b>Forex Amount : </b><input id= 'forex_amount' class="form-control"name="forex_amount" value="{{forex_amount}}" type="number" style="width: 80%;margin-left: 25%;"><br><br>
+
+                          </div>
+                        </div>
+                        <!-- <div class="container" style="text-align: start;">
+                          <div class="row">
+                            <div class="col-sm">
+                              <b>Currency :</b>  <select id="currency_from" name="currency_from"class="form-control" style="width: 50%; color: black;margin-left: 25%;">
+                                <option value="select"> Select Currency From </option>
+                                <option value="USD">US Dollar (USD) </option>
+                                <option value="euro">European  (euro)</option>
+                                <option value="Dirham" >United Amirates (Dirham)</option>
+                                <option value="Yuan">Chinese (Yuan)</option>
+                                <option value="pkr">Pakistani Rupee (pkr)</option>
+                                </select>
+                            </div>
+                          <div class="col-sm">
+
+                    <b>To : </b>
+                                    <select id="currency_to" name="currency_to"class="form-control" style="width: 50%; color: black;margin-left: 25%;">
+                                      <option value="select" > Select Currency To </option>
+                                      <option value="INR"> Indian Rupee (INR)</option>
+                                    </select><br>
+                            </div>
 
 
-                          <!-- <a href="" style="color: blue;text-align: left">Add Currency</a><br> -->
+                            <div class="col-sm">
 
 
 
-                          Forex Amount : <input id= 'forex_amount' name="forex_amount" value="{{forex_amount}}" type="number"><br><br>
-                          <!-- Inr Amount : <input id= 'inr_amount' name="inr_amount" value="{{inr_amount}}" type="number"><br><br>  -->
-
+                          <b>Forex Amount : </b><input id= 'forex_amount' class="form-control"name="forex_amount" value="{{forex_amount}}" type="number" style="width: 50%;margin-left: 25%;"><br><br>
+                        </div>
+                        </div>
+                          </div> -->
 
 
                            {% for message in messages %}

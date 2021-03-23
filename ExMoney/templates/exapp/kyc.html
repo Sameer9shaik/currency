@@ -56,7 +56,6 @@
                 <ul>
                   <li><a href="{% url 'exapp:profile' %}"> My profile</a></li>
                   <li><a href="{% url 'exapp:buy' %}">Buy Currency </a></li>
-                  <li><a href="{% url 'exapp:pay' %}">Pay </a></li>
                   <li><a href="{% url 'exapp:index' %}">Logout</a></li>
                 </ul>
               </li>
@@ -70,20 +69,11 @@
               <li class="active"><a href="{% url 'exapp:index' %}">Home</a></li>
               <li><a href="{% url 'exapp:index' %}">About</a></li>
               <li><a href="{% url 'exapp:index' %}">Services</a></li>
-              <li class="drop-down"><a href="">Currency Converter</a>
-                <ul>
-                  <li><a href="{% url 'exapp:usd' %}">INR to USD</a></li>
-                  <li><a href="{% url 'exapp:euro' %}">INR to Euro</a></li>
-                  <li><a href="{% url 'exapp:dirham' %}">INR to Dirham</a></li>
-                  <li><a href="{% url 'exapp:yuan' %}">INR to Yuan</a></li>
-                  <li><a href="{% url 'exapp:pkr' %}">INR to Pakistani Rupee</a></li>
-                </ul>
-              </li>
             </ul>
           </nav><!-- .nav-menu -->
           
-          <a href="{% url 'exapp:login' %}" class="get-started-btn scrollto">Login</a>
-          <a href="{% url 'exapp:register' %} " class="get-started-btn scrollto">register</a>
+          <a href="{% url 'exapp:login' %}" class="get-started-btn scrollto" style="font-weight: bold;">Login</a>
+          <a href="{% url 'exapp:register' %} " class="get-started-btn scrollto" style="font-weight: bold;">register</a>
         </div>
       </div>
 {% endif %} 
@@ -104,18 +94,19 @@
               {% for i in kycs %}
                 {% if i.status == True %}
                       <div class="card-header shawdow-ms bg-light" style="text-align: center;">
-                            <h2 style="color: black;text-align: center;"> KYC DOCUMENTS </h2>
-                            Pancard : <img src="{{ i.pancard }}" alt="pancard pic" width="300" height="150" /><hr><br>
-                            Aadhar :  <img src = "{{ i.aadhar }}" alt="aadhar pic " width="300" height="150"/><hr><br>
-                            <p style="color: red;">KYC Status : APPROVED</p><hr>
+                            <h2 style="color: #00b371;text-align: center; font-weight: bold;"> KYC DOCUMENTS </h2>
+                            <!-- Pancard : <img src="{{ i.pancard }}" alt="pancard pic" width="300" height="150" /><hr><br>
+                            Aadhar :  <img src = "{{ i.aadhar }}" alt="aadhar pic " width="300" height="150"/><hr><br> -->
+                            <p style="color: black;">KYC Status : APPROVED</p>
                       </div>
                 {% elif i.status == False %}
                       <div class="card-header shawdow-ms bg-light">
-                          <h2 style="color: black;"> KYC DOCUMENTS </h2>
-                          Pancard : <img src="{{ i.pancard }}" alt="pancard pic" width="300" height="150" /><hr><br>
-                          Aadhar :  <img src = "{{ i.aadhar }}" alt="aadhar pic " width="300" height="150"/><hr><br>
-                          <p style="color: red">KYC Status : PENDING </p><hr>
+                          <h2 style="color: #00b371; font-weight: bold;"> KYC DOCUMENTS </h2>
+                          <!-- Pancard : <img src="{{ i.pancard }}" alt="pancard pic" width="300" height="150" /><hr><br>
+                          Aadhar :  <img src = "{{ i.aadhar }}" alt="aadhar pic " width="300" height="150"/><hr><br> -->
+                          <p style="color: black">KYC Status : PENDING </p>
                           <p style="color: red"> Your Documents are being  processed by our Manager ....!</p>
+                        <a href="{% url 'exapp:pay' %}" class="get-started-btn scrollto" style="justify-content: center;text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; width:50%;color: black;border-right-style: hidden; background-color:rgb(25, 219, 161);font-weight: bold;"> Pay</a>
                       </div>
                 {% endif %}
               {% endfor %}
@@ -123,20 +114,20 @@
             {% else %}
 
               <div class="card-header shawdow-ms bg-light">
-              <h2 style="color: black;"> KYC DOCUMENTS </h2>
+              <h2 style="color:#00b371; text-align: center;font-weight: bold;"> KYC DOCUMENTS </h2>
               <form action="{% url 'exapp:kyc' %}" method="POST" style="text-align: justify;" enctype="multipart/form-data">
                 <div style="text-align: center;">
                 {% csrf_token %}
-                <label for="img"> Attach Your Aadhar :</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="file" id="aadhar" name="aadhar" accept="image/*"><br>
+                <label for="img" style="text-align: start;"> Attach Your Aadhar :</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="file"class="form-control" style="width: 50%; color: black;margin-left: 25%;" id="aadhar" name="aadhar" accept="image/*"><br>
                 <label for="img"> Attach Your Pancard :</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="file" id="pancard" name="pancard" accept="image/*"><br><br>
+                <input type="file" class="form-control" style="width: 50%; color: black;margin-left: 25%;"id="pancard" name="pancard" accept="image/*"><br><br>
                 {% for message in messages %}
                 <p style="color:red"> {{message}} </p>
                 {% endfor %}
                 </div>
                 <div style="text-align: center;">
-                  <button type="submit"  class="get-started-btn scrollto" style="text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; color: black;border-right-style: hidden; background-color:rgb(25, 219, 161); font-family: Georgia, 'Times New Roman', Times, serif;"> Upload  </button>
+                  <button type="submit"  class="get-started-btn scrollto" style="text-align: center; border-bottom-style: groove; border-top-style: none; border-left-style: none; color: black;border-right-style: hidden; background-color:rgb(25, 219, 161); font-weight: bold;"> Upload  </button>
                 </div>
               </form>
               </div>
